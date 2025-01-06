@@ -14,11 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->group('api', [
-            EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
-            SubstituteBindings::class,
-        ]);
+        // $middleware->group('api', [
+        //     EnsureFrontendRequestsAreStateful::class,
+        //     'throttle:api',
+        //     SubstituteBindings::class,
+        // ]);
         $middleware->alias([
             // 'random' => [
             //     EnsureFrontendRequestsAreStateful::class,

@@ -32,20 +32,21 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request) 
     {
-        $validatedData = $request->validated();
 
-        $user = $this->authServices->loginUser($validatedData);
-
+        $credentials = $request->only('email', 'password');
+        
+        $user = $this->authServices->loginUser($credentials);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        
         if (!$user)  {
+            // dd('masuk', $user);
             return response()->json(['message' => 'invalid credentials'], 201);
         }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'User registered successfully',
             'token' => $token
-        ]);
+        ])->header('Cache-Control', 'no-cache, no-store, must-revalidate');
     }
 
     // Logout

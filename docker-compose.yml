@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: bismillah # Ganti dengan password root yang kuat
+      MYSQL_DATABASE: lms_backend # Opsional: Membuat database otomatis
+      MYSQL_USER: ajidk      # Opsional: Membuat user baru
+      MYSQL_PASSWORD: pastibisa # Opsional: Password user baru
+    ports:
+      - "3306:3306" # Opsional: Jika ingin akses MySQL dari host
+    volumes:
+      - db_data:/var/lib/mysql # Volume untuk persistensi data
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8070:80"
+    environment:
+      PMA_HOST: db # Nama service MySQL di docker-compose
+      UPLOAD_LIMIT: 50M # Opsional: Menaikkan batas upload
+    depends_on:
+      - db # Memastikan MySQL berjalan sebelum phpMyAdmin
+volumes:
+  db_data:
